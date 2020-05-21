@@ -41,7 +41,7 @@
                   </div>
                 </div>
                 <div class="text-center" >
-                     <h1 class="h6 text-gray-900 mb-4">SmartPOS - &copy; Copyright Wirianta - <?= date ('Y'); ?></h1>
+                     <h1 class="h6 text-gray-900 mb-4">SmartPOS - Copyright &copy; Wirianta - <?= date ('Y'); ?></h1>
                 </div>
           </div>
       </div>

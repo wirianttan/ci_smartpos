@@ -28,5 +28,4 @@ class User extends CI_Controller
         $this->load->view('user/index', $data);
         $this->load->view('templates/footer');
     }
-
 }

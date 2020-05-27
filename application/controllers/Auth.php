@@ -7,7 +7,7 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->model('User_model');
-        $this->load->library('form_validation');
+        // $this->load->library('form_validation');
         // $active_group = 'db1';
         // $this->db1 = $this->load->database("db1", True);
     }
@@ -43,6 +43,8 @@ class Auth extends CI_Controller
                         'role_id' => $user['role_id]']
                     ];
                     $this->session->set_userdata($data);
+
+                    $this->User_model->setClientDB($email);
                     redirect('user');
                 } else {
                     $message = 'The password is invalid!';
@@ -60,21 +62,6 @@ class Auth extends CI_Controller
 
     public function registration()
     {
-
-        // $config['hostname'] = 'localhost';
-        // $config['username'] = 'root';
-        // $config['password'] = '';
-        // $config['database'] = 'smartpos1';
-        // $config['dbdriver'] = 'mysqli';
-        // $config['dbprefix'] = '';
-        // $config['pconnect'] = FALSE;
-        // $config['db_debug'] = TRUE;
-        // $config['cache_on'] = FALSE;
-        // $config['cachedir'] = '';
-        // $config['char_set'] = 'utf8';
-        // $config['dbcollat'] = 'utf8_general_ci';
-        // $this->db->close();
-        // $this->load->database($config, FALSE);
         $redir = 'auth';
 
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
@@ -120,7 +107,7 @@ class Auth extends CI_Controller
             if ($user_token['token'] == $token) {
                 if (time() - $user_token['date_created'] < (60 * 60 * 24 * 7)) {
 
-                    $this->User_model->activateUser($email);
+                    $this->User_model->activateUser($email, $user['id']);
                     $this->User_model->hapusTokenUser($email);
 
                     $message = 'The account is activated.';
@@ -197,24 +184,24 @@ class Auth extends CI_Controller
 
         if ($user) {
             $user_token = $this->User_model->cekDataTokenUser($email);
-            if ($user_token['token'] == $token) {
-                if (time() - $user_token['date_created'] < (60 * 60 * 24 * 7)) {
-                    $this->session->set_userdata('reset_email', $email);
+            if ($user_token) {
+                if ($user_token['token'] == $token) {
+                    if (time() - $user_token['date_created'] < (60 * 60 * 24 * 7)) {
+                        $this->session->set_userdata('reset_email', $email);
+                        $this->changePassword();
+                    } else {
 
-                    // $data['title'] = 'SmartPOS - Change Password';
-                    // $this->load->view('templates/auth_header', $data);
-                    // $this->load->view('auth/change-password', $email);
-                    // $this->load->view('templates/auth_footer');
-                    $this->changePassword();
+                        $this->User_model->hapusTokenUser($email);
+
+                        $message = 'Token expire.';
+                        $this->User_model->flashErrorMessage($message, False, $redir);
+                    }
                 } else {
-
-                    $this->User_model->hapusTokenUser($email);
-
-                    $message = 'Token expire.';
+                    $message = 'Reset password failed! Token is not valid.';
                     $this->User_model->flashErrorMessage($message, False, $redir);
                 }
             } else {
-                $message = 'Reset password failed! Token is not valid.';
+                $message = 'The password has been reset before!';
                 $this->User_model->flashErrorMessage($message, False, $redir);
             }
         } else {
@@ -249,6 +236,7 @@ class Auth extends CI_Controller
             $email = $this->session->userdata('reset_email');
 
             if ($this->User_model->ubahPasswordUser($email, $password_hash)) {
+                $this->User_model->hapusTokenUser($email);
 
                 $this->session->unset_userdata('reset_email');
 

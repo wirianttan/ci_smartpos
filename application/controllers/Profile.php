@@ -6,7 +6,7 @@ class Profile extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('form_validation');
+        // $this->load->library('form_validation');
         $this->load->model('User_model');
 
         if (!$this->session->userdata['email']) {

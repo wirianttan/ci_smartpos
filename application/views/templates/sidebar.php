@@ -15,7 +15,7 @@
 
   <!-- Nav Item - Dashboard -->
   <li class="nav-item">
-    <a class="nav-link pb-0" href="index.html">
+    <a class="nav-link pb-0" href="<?= base_url('backend'); ?>">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a>
   </li>
@@ -46,7 +46,8 @@
     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded mt-3">
         <!-- <h6 class="collapse-header">Custom Utilities:</h6> -->
-        <a class="collapse-item" href="utilities-color.html">Outlet</a>
+
+        <a class="collapse-item" href="<?= base_url('branch'); ?>">Outlet</a>
         <a class="collapse-item" href="utilities-border.html">Product</a>
         <a class="collapse-item" href="utilities-animation.html">Category</a>
         <a class="collapse-item" href="utilities-animation.html">UOM</a>

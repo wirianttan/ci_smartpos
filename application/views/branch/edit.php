@@ -10,12 +10,12 @@
 
             <!-- <?= form_open_multipart('branch/add'); ?> -->
 
-            <form class="branch" action="<?= base_url('branch/addbranch'); ?>" method="post">
+            <form class="branch" action="<?= base_url('branch/editbranch/') .  $branch['id']; ?>" method="post">
                 <?= $this->session->flashdata('message'); ?>
                 <div class="form-row mt-3 justify-content-md-center">
                     <div class="form-group col-md-5">
                         <label for="branchcode">Outlet Code</label>
-                        <input type="text" class="form-control" id="branchcode" name="branchcode" value="<?= $branch['branchcode']; ?>">
+                        <input type="text" class="form-control" id="branchcode" name="branchcode" value="<?= $branch['branchcode']; ?>" readonly>
                         <div>
                             <?= form_error('branchcode', '<small class="text-danger">', '</small>'); ?>
                         </div>

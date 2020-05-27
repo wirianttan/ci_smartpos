@@ -1,7 +1,7 @@
 <!-- Footer -->
 <footer class="sticky-footer bg-white">
   <div class="container my-auto">
-    <div class="copyright text-center my-auto">
+    <div class="copyright text-left font-weight-bold my-auto">
       <span>Copyright &copy; Wirianta - <?= date('Y'); ?></span>
     </div>
   </div>
@@ -47,6 +47,9 @@
 
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
+
+<script src="<?= base_url('assets/'); ?>js/sweetalert2.all.min.js"></script>
+<script src="<?= base_url('assets/'); ?>js/myscript.js"></script>
 
 <script>
   $('.custom-file-input').on('change', function() {
